@@ -5,7 +5,6 @@ import christmas.constant.Menu;
 import christmas.constant.MenuCategory;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import org.junit.jupiter.api.Order;
 
 public class OrderValidator {
     private static final int MIN_QUANTITY = 1;

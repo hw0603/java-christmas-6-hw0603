@@ -1,6 +1,7 @@
 package christmas.controller;
 
 import christmas.util.DateValidator;
+import christmas.util.OrderValidator;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -26,9 +27,16 @@ public class PlannerController {
     }
 
     private String receiveValidatedOrder() {
-        OutputView.printOrderInputDescription();
-        String input = InputView.inputOrder();
+        while (true) {
+            try {
+                OutputView.printOrderInputDescription();
+                String input = InputView.inputOrder();
+                OrderValidator.validateOrder(input);
+                return input;
+            } catch (IllegalArgumentException e) {
+                OutputView.printExceptionMessage(e);
+            }
 
-        return null;
+        }
     }
 }
