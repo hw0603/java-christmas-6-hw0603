@@ -4,6 +4,7 @@ import christmas.constant.EventPlanner;
 import christmas.constant.Menu;
 import christmas.constant.MenuCategory;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 public class OrderValidator {
@@ -62,12 +63,12 @@ public class OrderValidator {
     }
 
     private static boolean isExist(String menuName) {
-        for (Menu menu : Menu.values()) {
-            if (menu.getName().equals(menuName)) {
-                return true;
-            }
+        try {
+            Menu.fromName(menuName);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
         }
-        return false;
     }
 
     private static boolean isAllDrink(String userInput) {
