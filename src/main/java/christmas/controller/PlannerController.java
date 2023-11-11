@@ -6,11 +6,11 @@ public class PlannerController {
 
     public void start() {
         OutputView.printWelconeMessage();
-        receiveValidatedName();
+        receiveValidatedDate();
     }
 
-    public String receiveValidatedName() {
+    private int receiveValidatedDate() {
         OutputView.printDateInputDescription();
-        return null;
+        return 0;
     }
 }
