@@ -7,8 +7,9 @@ import christmas.view.OutputView;
 public class PlannerController {
 
     public void start() {
-        OutputView.printWelconeMessage();
+        OutputView.printWelcomeMessage();
         int userDate = receiveValidatedDate();
+
     }
 
     private int receiveValidatedDate() {

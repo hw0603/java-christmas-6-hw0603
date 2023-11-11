@@ -3,7 +3,7 @@ package christmas.view;
 import christmas.constant.EventPlanner;
 
 public class OutputView {
-    public static void printWelconeMessage() {
+    public static void printWelcomeMessage() {
         System.out.println(EventPlanner.WELCOME_MSG);
     }
     public static void printDateInputDescription() {
