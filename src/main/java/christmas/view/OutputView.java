@@ -9,4 +9,7 @@ public class OutputView {
     public static void printDateInputDescription() {
         System.out.println(EventPlanner.VISIT_DATE_INPUT_DESC);
     }
+    public static void printExceptionMessage(Exception e) {
+        System.out.println(EventPlanner.ERROR_MSG_PREFIX + e.getMessage());
+    }
 }
