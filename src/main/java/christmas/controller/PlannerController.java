@@ -4,6 +4,9 @@ import christmas.util.DateValidator;
 import christmas.util.OrderValidator;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class PlannerController {
 
@@ -14,29 +17,24 @@ public class PlannerController {
     }
 
     private int receiveValidatedDate() {
-        while (true) {
-            try {
-                OutputView.printDateInputDescription();
-                String input = InputView.inputVisitDate();
-                DateValidator.validateDate(input);
-                return Integer.parseInt(input);
-            } catch (IllegalArgumentException e) {
-                OutputView.printExceptionMessage(e);
-            }
-        }
+        OutputView.printDateInputDescription();
+        return receiveValidatedInput(InputView::inputOrder, DateValidator::validateDate, Integer::parseInt);
     }
 
     private String receiveValidatedOrder() {
+        OutputView.printOrderInputDescription();
+        return receiveValidatedInput(InputView::inputOrder, OrderValidator::validateOrder, Function.identity());
+    }
+
+    private static <T> T receiveValidatedInput(Supplier<String> inputSupplier, Consumer<String> validator, Function<String, T> converter) {
         while (true) {
             try {
-                OutputView.printOrderInputDescription();
-                String input = InputView.inputOrder();
-                OrderValidator.validateOrder(input);
-                return input;
+                String input = inputSupplier.get();
+                validator.accept(input);
+                return converter.apply(input);
             } catch (IllegalArgumentException e) {
                 OutputView.printExceptionMessage(e);
             }
-
         }
     }
 }
