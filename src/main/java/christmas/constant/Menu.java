@@ -1,6 +1,7 @@
 package christmas.constant;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", MenuCategory.APPETIZER, 6000),
@@ -46,7 +47,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(v -> v.getName().equals(name))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 메뉴입니다."));
     }
 
 }
