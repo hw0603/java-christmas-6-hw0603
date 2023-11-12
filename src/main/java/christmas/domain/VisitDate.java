@@ -15,4 +15,20 @@ public class VisitDate {
     public boolean isSpecialDay() {
         return EventCalendar.specialDate.contains(this.date);
     }
+
+    public boolean isWeekday() {
+        return weekday.isWeekday();
+    }
+
+    public boolean isWeekend() {
+        return weekday.isWeekend();
+    }
+
+    public boolean isAfterChristmas() {
+        return this.date > EventCalendar.CHRISTMAS_DATE;
+    }
+
+    public int getDate() {
+        return this.date;
+    }
 }

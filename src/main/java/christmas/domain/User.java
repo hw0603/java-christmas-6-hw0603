@@ -17,4 +17,11 @@ public class User {
                 .sum();
     }
 
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
+    public VisitDate getVisitDate() {
+        return this.visitDate;
+    }
 }
