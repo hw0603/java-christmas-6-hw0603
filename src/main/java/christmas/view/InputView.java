@@ -20,7 +20,7 @@ public class InputView {
 
     public static Map<String, Integer> inputOrder() {
         String userInput = Console.readLine();
-        if (!isAcceptableFormat(userInput)) {
+        if (!isAcceptableOrderFormat(userInput)) {
             throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
         }
 
@@ -29,7 +29,7 @@ public class InputView {
                 .collect(Collectors.toMap(order -> order[0], order -> Integer.parseInt(order[1])));
     }
 
-    private static boolean isAcceptableFormat(String userInput) {
+    private static boolean isAcceptableOrderFormat(String userInput) {
         return Pattern.matches(ORDER_FORMAT_REGEX, userInput);
     }
 }
