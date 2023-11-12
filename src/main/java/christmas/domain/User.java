@@ -11,4 +11,10 @@ public class User {
         this.visitDate = visitDate;
     }
 
+    public int getTotalPrice() {
+        return orders.stream()
+                .mapToInt(Order::getPrice)
+                .sum();
+    }
+
 }

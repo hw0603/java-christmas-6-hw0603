@@ -10,4 +10,8 @@ public class Order {
         this.menu = menu;
         this.amount = amount;
     }
+
+    public int getPrice() {
+        return menu.getPrice() * amount;
+    }
 }
