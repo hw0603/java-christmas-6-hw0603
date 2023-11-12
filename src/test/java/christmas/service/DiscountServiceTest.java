@@ -2,13 +2,13 @@ package christmas.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import christmas.domain.ChristmasDiscountPolicy;
+import christmas.domain.discountpolicy.ChristmasDiscountPolicy;
 import christmas.domain.Order;
-import christmas.domain.SpecialDiscountPolicy;
+import christmas.domain.discountpolicy.SpecialDiscountPolicy;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
-import christmas.domain.WeekDayDiscountPolicy;
-import christmas.domain.WeekendDiscountPolicy;
+import christmas.domain.discountpolicy.WeekDayDiscountPolicy;
+import christmas.domain.discountpolicy.WeekendDiscountPolicy;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,6 @@
-package christmas.domain;
+package christmas.domain.discountpolicy;
+
+import christmas.domain.User;
 
 public class ChristmasDiscountPolicy implements DiscountPolicy {
     private static final int DISCOUNT_START_AMOUNT = 1000;

@@ -1,6 +1,6 @@
 package christmas.service;
 
-import christmas.domain.DiscountPolicy;
+import christmas.domain.discountpolicy.DiscountPolicy;
 import christmas.domain.User;
 
 public class DiscountService {

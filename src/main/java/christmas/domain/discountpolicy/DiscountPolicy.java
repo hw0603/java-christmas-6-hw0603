@@ -1,4 +1,6 @@
-package christmas.domain;
+package christmas.domain.discountpolicy;
+
+import christmas.domain.User;
 
 public interface DiscountPolicy {
     int MINIMUN_PRICE = 10000;
