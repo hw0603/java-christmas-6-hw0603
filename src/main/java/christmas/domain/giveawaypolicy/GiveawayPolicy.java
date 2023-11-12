@@ -1,10 +1,9 @@
 package christmas.domain.giveawaypolicy;
 
 import christmas.constant.Menu;
-import christmas.domain.User;
 
 public interface GiveawayPolicy {
-    Menu findGift(User user);
+    Menu findGift(int totalPrice);
 
-    boolean isMatchedCondition(User user);
+    boolean isMatchedCondition(int totalPrice);
 }
