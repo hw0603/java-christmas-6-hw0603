@@ -14,4 +14,12 @@ public class Order {
     public int getPrice() {
         return menu.getPrice() * amount;
     }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public Menu getMenu() {
+        return this.menu;
+    }
 }
