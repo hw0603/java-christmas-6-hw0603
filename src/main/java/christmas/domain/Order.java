@@ -22,4 +22,9 @@ public class Order {
     public Menu getMenu() {
         return this.menu;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %d개", menu.getName(), amount);
+    }
 }
