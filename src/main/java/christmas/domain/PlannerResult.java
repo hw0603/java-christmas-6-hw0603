@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import christmas.constant.EventPlanner;
+import christmas.constant.Menu;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,16 +13,23 @@ public class PlannerResult {
     private final String badgeName;
     private final int totalDiscount;
 
-    public PlannerResult(int totalPrice, Map<String, Integer> discountAmountByEachPolicy, String giftName,
-                         int giftPrice, String badgeName) {
+    public PlannerResult(int totalPrice, Map<String, Integer> discountAmountByEachPolicy,
+                         String giftName, String badgeName) {
         this.totalPrice = totalPrice;
         this.discountAmountByEachPolicy = discountAmountByEachPolicy;
         this.giftName = giftName;
-        this.giftPrice = giftPrice;
         this.badgeName = badgeName;
         this.totalDiscount = discountAmountByEachPolicy.values().stream()
                 .mapToInt(Integer::intValue)
                 .sum();
+        this.giftPrice = initGiftPrice();
+    }
+
+    private int initGiftPrice() {
+        if (giftName == null) {
+            return 0;
+        }
+        return Menu.fromName(giftName).getPrice();
     }
 
     public int getTotalPrice() {
@@ -45,6 +53,9 @@ public class PlannerResult {
     }
 
     public Map<String, Integer> getAllBenefit() {
+        if (giftPrice == 0) {
+            return discountAmountByEachPolicy;
+        }
         return new HashMap<>(discountAmountByEachPolicy) {{
             put(EventPlanner.GIVEAWAY_EVENT, giftPrice);
         }};

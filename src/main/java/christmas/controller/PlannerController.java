@@ -97,7 +97,6 @@ public class PlannerController {
                 totalPrice,
                 discountAmountByEachPolicy,
                 gift.map(Menu::getName).orElse(null),
-                gift.map(Menu::getPrice).orElse(0),
                 badge.map(Badge::getName).orElse(null)
         ));
     }
