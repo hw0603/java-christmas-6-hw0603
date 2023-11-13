@@ -2,12 +2,14 @@ package christmas.domain;
 
 import christmas.constant.EventCalendar;
 import christmas.constant.Week;
+import christmas.util.DateValidator;
 
 public class VisitDate {
     private final int date;
     private final Week weekday;
 
     public VisitDate(int date, Week weekday) {
+        DateValidator.validateDate(date);
         this.date = date;
         this.weekday = weekday;
     }
