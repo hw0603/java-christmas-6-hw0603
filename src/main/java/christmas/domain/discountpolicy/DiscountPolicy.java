@@ -16,4 +16,5 @@ public interface DiscountPolicy {
         return user.getTotalPrice() >= MINIMUN_PRICE;
     }
     int doCalc(User user);
+    String getPolicyName();
 }

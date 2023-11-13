@@ -3,6 +3,7 @@ package christmas.domain.discountpolicy;
 import christmas.domain.User;
 
 public class SpecialDiscountPolicy implements DiscountPolicy {
+    public static final String POLICY_NAME = "특별 할인";
     private static final int DISCOUNT_AMOUNT = 1000;
 
     @Override
@@ -11,5 +12,10 @@ public class SpecialDiscountPolicy implements DiscountPolicy {
             return 0;
         }
         return DISCOUNT_AMOUNT;
+    }
+
+    @Override
+    public String getPolicyName() {
+        return POLICY_NAME;
     }
 }

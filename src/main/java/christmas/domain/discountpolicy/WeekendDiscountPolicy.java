@@ -4,6 +4,7 @@ import christmas.constant.MenuCategory;
 import christmas.domain.User;
 
 public class WeekendDiscountPolicy implements DiscountPolicy {
+    private static final String POLICY_NAME = "주말 할인";
     private static final int DISCOUNT_AMOUNT = 2023;
 
     @Override
@@ -15,5 +16,10 @@ public class WeekendDiscountPolicy implements DiscountPolicy {
                 .filter(order -> order.getMenu().getCategory() == MenuCategory.MAIN_DISH)
                 .mapToInt(order -> order.getAmount() * DISCOUNT_AMOUNT)
                 .sum();
+    }
+
+    @Override
+    public String getPolicyName() {
+        return POLICY_NAME;
     }
 }
