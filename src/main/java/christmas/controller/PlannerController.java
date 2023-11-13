@@ -5,6 +5,7 @@ import christmas.domain.PlannerResult;
 import christmas.domain.badgepolicy.DefaultBadgePolicy;
 import christmas.domain.discountpolicy.ChristmasDiscountPolicy;
 import christmas.domain.Order;
+import christmas.domain.discountpolicy.DiscountPolicy;
 import christmas.domain.discountpolicy.SpecialDiscountPolicy;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
@@ -27,6 +28,7 @@ import christmas.constant.Menu;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class PlannerController {
     CalendarService calendarService = new CalendarService();
@@ -35,7 +37,6 @@ public class PlannerController {
     DiscountService discountService = new DiscountService();
     GiveawayService giveawayService = new GiveawayService();
     BadgeService badgeService = new BadgeService();
-    PlannerResult result;
     User user;
 
     public void start() {
@@ -72,36 +73,34 @@ public class PlannerController {
 
     public void plan() {
         int totalPrice = user.getTotalPrice();
-        int weekDayDiscount = discountService.calcDiscountAmount(new WeekDayDiscountPolicy(), user);
-        int weekendDiscount = discountService.calcDiscountAmount(new WeekendDiscountPolicy(), user);
-        int specialDiscount = discountService.calcDiscountAmount(new SpecialDiscountPolicy(), user);
-        int christmasDiscount = discountService.calcDiscountAmount(new ChristmasDiscountPolicy(), user);
-        int totalDiscount = weekDayDiscount + weekendDiscount + specialDiscount + christmasDiscount;
+        List<DiscountPolicy> discountPolicies = List.of(
+                new WeekDayDiscountPolicy(),
+                new WeekendDiscountPolicy(),
+                new SpecialDiscountPolicy(),
+                new ChristmasDiscountPolicy()
+        );
+
+        Map<String, Integer> discountAmountByEachPolicy = discountPolicies.stream()
+                .map(p -> Map.entry(p.getPolicyName(), discountService.calcDiscountAmount(p, user)))
+                .filter(entry -> entry.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
 
         Optional<Menu> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
-        int totalBenefit = totalDiscount + gift.map(Menu::getPrice).orElse(0);
+        int totalBenefit = discountAmountByEachPolicy.values().stream()
+                .mapToInt(Integer::intValue).sum()
+                + gift.map(Menu::getPrice).orElse(0);
 
         Optional<Badge> badge = badgeService.findBadge(new DefaultBadgePolicy(), totalBenefit);
 
-        String giftName = gift.map(Menu::getName).orElse(null);
-        String badgeName = badge.map(Badge::getName).orElse(null);
-
-        result = new PlannerResult(
+        printResult(new PlannerResult(
                 totalPrice,
-                Map.of(
-                        "평일 할인", weekDayDiscount,
-                        "주말 할인", weekendDiscount,
-                        "특별 할인", specialDiscount,
-                        "크리스마스 디데이 할인", christmasDiscount
-                ),
-                giftName,
+                discountAmountByEachPolicy,
+                gift.map(Menu::getName).orElse(null),
                 gift.map(Menu::getPrice).orElse(0),
-                badgeName
-        );
-
-        printResult(result);
+                badge.map(Badge::getName).orElse(null)
+        ));
     }
-
 
     public void printResult(PlannerResult result) {
         OutputView.printEventPreviewDescription(user.getVisitDate().getDate());
