@@ -1,6 +1,6 @@
 package christmas.util;
 
-import christmas.constant.EventPlanner;
+import christmas.constant.EventPlannerConstants;
 import christmas.constant.Menu;
 import christmas.constant.MenuCategory;
 import java.util.Map;
@@ -12,16 +12,16 @@ public class OrderValidator {
 
     public static void validateOrder(Map<String, Integer> userOrder) {
         if (!isAllQuantityMoreThanOrEqualToMinimum(userOrder)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_ORDER_ERROR);
         }
         if (!isTotalQuantityLessThanOrEqualToMaximum(userOrder)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_ORDER_ERROR);
         }
         if (!isAllMenuExist(userOrder)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_ORDER_ERROR);
         }
         if (isAllDrink(userOrder)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_ORDER_ERROR);
         }
     }
 

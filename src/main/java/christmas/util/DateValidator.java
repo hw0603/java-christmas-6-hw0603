@@ -1,6 +1,6 @@
 package christmas.util;
 
-import christmas.constant.EventPlanner;
+import christmas.constant.EventPlannerConstants;
 
 public class DateValidator {
     public static final int MIN_DATE = 1;
@@ -8,7 +8,7 @@ public class DateValidator {
 
     public static void validateDate(int userDate) {
         if (!isInRange(userDate)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_DATE_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_DATE_ERROR);
         }
     }
 

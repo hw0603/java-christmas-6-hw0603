@@ -1,7 +1,7 @@
 package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
-import christmas.constant.EventPlanner;
+import christmas.constant.EventPlannerConstants;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -14,14 +14,14 @@ public class InputView {
         try {
             return Integer.parseInt(Console.readLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_DATE_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_DATE_ERROR);
         }
     }
 
     public static Map<String, Integer> inputOrder() {
         String userInput = Console.readLine();
         if (!isAcceptableOrderFormat(userInput)) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlannerConstants.INVALID_ORDER_ERROR);
         }
 
         return Arrays.stream(userInput.split(","))

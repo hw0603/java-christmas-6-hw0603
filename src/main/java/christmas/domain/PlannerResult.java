@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.constant.EventPlanner;
+import christmas.constant.EventPlannerConstants;
 import christmas.constant.Menu;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class PlannerResult {
             return discountAmountByEachPolicy;
         }
         return new HashMap<>(discountAmountByEachPolicy) {{
-            put(EventPlanner.GIVEAWAY_EVENT, giftPrice);
+            put(EventPlannerConstants.GIVEAWAY_EVENT, giftPrice);
         }};
     }
 }
