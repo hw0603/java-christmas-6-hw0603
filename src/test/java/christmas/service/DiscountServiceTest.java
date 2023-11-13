@@ -74,7 +74,7 @@ public class DiscountServiceTest {
     @CsvSource(
             value = {
                     "3/양송이수프-1/0",
-                    "25/제로콜라-3/0",
+                    "25/아이스크림-1/0",
             },
             delimiter = '/'
     )
@@ -116,7 +116,7 @@ public class DiscountServiceTest {
     @CsvSource(
             value = {
                     "3/양송이수프-1/0",
-                    "25/제로콜라-3/0",
+                    "25/아이스크림-1/0",
             },
             delimiter = '/'
     )
