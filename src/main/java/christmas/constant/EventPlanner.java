@@ -16,6 +16,7 @@ public class EventPlanner {
     public static final String DISCOUNTED_PRICE_HEADER = "<할인 후 예상 결제 금액>";
     public static final String EVENT_BADGE_HEADER = "<12월 이벤트 배지>";
     public static final String NOTHING = "없음";
+    public static final String GIVEAWAY_EVENT = "증정 이벤트";
 
     private EventPlanner() {
     }
