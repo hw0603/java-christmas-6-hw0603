@@ -4,40 +4,37 @@ import christmas.constant.EventPlannerConstants;
 import christmas.constant.Menu;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PlannerResult {
     private final int totalPrice;
     private final Map<String, Integer> discountAmountByEachPolicy;
-    private final String giftName;
-    private final int giftPrice;
+    private final Map<Menu, Integer> gift;
+    private final int totalGiftPrice;
     private final String badgeName;
     private final int totalDiscount;
 
     public PlannerResult(int totalPrice, Map<String, Integer> discountAmountByEachPolicy,
-                         String giftName, String badgeName) {
+                         Map<Menu, Integer> gift, String badgeName) {
         this.totalPrice = totalPrice;
         this.discountAmountByEachPolicy = discountAmountByEachPolicy;
-        this.giftName = giftName;
+        this.gift = gift;
         this.badgeName = badgeName;
         this.totalDiscount = discountAmountByEachPolicy.values().stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        this.giftPrice = initGiftPrice();
-    }
-
-    private int initGiftPrice() {
-        if (giftName == null) {
-            return 0;
-        }
-        return Menu.fromName(giftName).getPrice();
+        this.totalGiftPrice = gift.values().stream()
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 
     public int getTotalPrice() {
         return totalPrice;
     }
 
-    public String getGiftName() {
-        return giftName;
+    public Map<String, Integer> getGiftNameAndQuantity() {
+        return gift.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().getName(), Map.Entry::getValue));
     }
 
     public String getBadgeName() {
@@ -45,7 +42,7 @@ public class PlannerResult {
     }
 
     public int getBenefitAmount() {
-        return giftPrice + totalDiscount;
+        return totalGiftPrice + totalDiscount;
     }
 
     public int getDiscountedPrice() {
@@ -53,11 +50,11 @@ public class PlannerResult {
     }
 
     public Map<String, Integer> getAllBenefit() {
-        if (giftPrice == 0) {
+        if (gift.isEmpty()) {
             return discountAmountByEachPolicy;
         }
         return new HashMap<>(discountAmountByEachPolicy) {{
-            put(EventPlannerConstants.GIVEAWAY_EVENT, giftPrice);
+            put(EventPlannerConstants.GIVEAWAY_EVENT, totalGiftPrice);
         }};
     }
 }

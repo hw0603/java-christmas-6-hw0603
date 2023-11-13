@@ -5,6 +5,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import christmas.constant.Menu;
 import christmas.domain.giveawaypolicy.DefaultGiveawayPolicy;
 import christmas.domain.giveawaypolicy.GiveawayPolicy;
+import java.util.Collections;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,8 @@ public class GiveawayServiceTest {
         int totalPrice = 120000;
         GiveawayPolicy policy = new DefaultGiveawayPolicy();
 
-        assertThat(giveawayService.findGift(policy, totalPrice).orElse(null))
-                .isEqualTo(Menu.CHAMPAGNE);
+        assertThat(giveawayService.findGift(policy, totalPrice))
+                .isEqualTo(Map.of(Menu.CHAMPAGNE, 1));
     }
 
     @Test
@@ -33,7 +35,7 @@ public class GiveawayServiceTest {
         int totalPrice = 119999;
         GiveawayPolicy policy = new DefaultGiveawayPolicy();
 
-        assertThat(giveawayService.findGift(policy, totalPrice).orElse(null))
-                .isNull();
+        assertThat(giveawayService.findGift(policy, totalPrice))
+                .isEqualTo(Collections.emptyMap());
     }
 }

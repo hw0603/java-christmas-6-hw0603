@@ -2,10 +2,10 @@ package christmas.service;
 
 import christmas.constant.Menu;
 import christmas.domain.giveawaypolicy.GiveawayPolicy;
-import java.util.Optional;
+import java.util.Map;
 
 public class GiveawayService {
-    public Optional<Menu> findGift(GiveawayPolicy policy, int totalPrice) {
-        return Optional.ofNullable(policy.findGift(totalPrice));
+    public Map<Menu, Integer> findGift(GiveawayPolicy policy, int totalPrice) {
+        return policy.findGift(totalPrice);
     }
 }

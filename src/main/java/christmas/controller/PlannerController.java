@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlannerController {
     CalendarService calendarService;
@@ -85,13 +86,12 @@ public class PlannerController {
     public void plan() {
         int totalPrice = user.getTotalPrice();
         Map<String, Integer> discountAmountByEachPolicy = calcDiscountAmount();
-        Optional<Menu> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
-        int totalBenefit = calcTotalBenefit(discountAmountByEachPolicy, gift.map(Menu::getPrice).orElse(0));
+        Map<Menu, Integer> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
+        int totalBenefit = calcTotalBenefit(discountAmountByEachPolicy, gift);
         Optional<Badge> badge = badgeService.findBadge(new DefaultBadgePolicy(), totalBenefit);
 
         printResult(new PlannerResult(
-                totalPrice, discountAmountByEachPolicy,
-                gift.map(Menu::getName).orElse(null),
+                totalPrice, discountAmountByEachPolicy, gift,
                 badge.map(Badge::getName).orElse(null)
         ));
     }
@@ -109,17 +109,16 @@ public class PlannerController {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private int calcTotalBenefit(Map<String, Integer> discountAmountByEachPolicy, int giftPrice) {
-        return discountAmountByEachPolicy.values().stream()
-                .mapToInt(Integer::intValue).sum()
-                + giftPrice;
+    private int calcTotalBenefit(Map<String, Integer> discountAmountByEachPolicy, Map<Menu, Integer> gift) {
+        return Stream.concat(discountAmountByEachPolicy.values().stream(), gift.values().stream())
+                .mapToInt(Integer::intValue).sum();
     }
 
     private void printResult(PlannerResult result) {
         OutputView.printEventPreviewDescription(user.getVisitDate().getDate());
         OutputView.printOrder(user.getOrders());
         OutputView.printTotalPrice(result.getTotalPrice());
-        OutputView.printGift(result.getGiftName());
+        OutputView.printGift(result.getGiftNameAndQuantity());
         OutputView.printBenefitList(result.getAllBenefit());
         OutputView.printBenefitAmount(result.getBenefitAmount());
         OutputView.printDiscountedPrice(result.getDiscountedPrice());

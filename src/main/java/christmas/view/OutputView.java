@@ -59,16 +59,23 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printGift(String giftName) {
+    public static void printGift(Map<String, Integer> gift) {
         System.out.println(GIFT_HEADER);
 
-        if (giftName == null) {
+        if (gift.isEmpty()) {
             System.out.println(NOTHING);
             System.out.println();
             return;
         }
-        System.out.println(giftName + " 1개"); // TODO: 증정품이 다수일 수 있음
-        System.out.println();
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Integer> giftEntry : gift.entrySet()) {
+            sb.append(giftEntry.getKey());
+            sb.append(" ");
+            sb.append(giftEntry.getValue());
+            sb.append("개");
+            sb.append("\n");
+        }
+        System.out.println(sb);
     }
 
     public static void printBenefitList(Map<String, Integer> benefits) {
