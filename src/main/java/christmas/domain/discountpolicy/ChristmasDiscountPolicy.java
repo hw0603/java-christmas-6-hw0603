@@ -2,7 +2,7 @@ package christmas.domain.discountpolicy;
 
 import christmas.domain.User;
 
-public class ChristmasDiscountPolicy implements DiscountPolicy {
+public class ChristmasDiscountPolicy extends DiscountPolicy {
     public static final String POLICY_NAME = "크리스마스 디데이 할인";
     private static final int DISCOUNT_START_AMOUNT = 1000;
     private static final int DISCOUNT_ACCUMULATE_AMOUNT = 100;

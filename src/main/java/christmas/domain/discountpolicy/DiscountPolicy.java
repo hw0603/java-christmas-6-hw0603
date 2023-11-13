@@ -2,19 +2,19 @@ package christmas.domain.discountpolicy;
 
 import christmas.domain.User;
 
-public interface DiscountPolicy {
+public abstract class DiscountPolicy {
     int MINIMUM_PRICE = 10000;
 
-    default int calc(User user) {
+    public int calc(User user) {
         if (isDiscountable(user)) {
             return doCalc(user);
         }
         return 0;
     }
 
-    default boolean isDiscountable(User user) {
+    private boolean isDiscountable(User user) {
         return user.getTotalPrice() >= MINIMUM_PRICE;
     }
-    int doCalc(User user);
-    String getPolicyName();
+    abstract int doCalc(User user);
+    public abstract String getPolicyName();
 }

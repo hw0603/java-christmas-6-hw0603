@@ -3,7 +3,7 @@ package christmas.domain.discountpolicy;
 import christmas.constant.MenuCategory;
 import christmas.domain.User;
 
-public class WeekendDiscountPolicy implements DiscountPolicy {
+public class WeekendDiscountPolicy extends DiscountPolicy {
     private static final String POLICY_NAME = "주말 할인";
     private static final int DISCOUNT_AMOUNT = 2023;
 
