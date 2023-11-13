@@ -48,6 +48,28 @@ public class PlannerController {
         user = userService.createUser(orders, visitDate);
     }
 
+    private int receiveValidatedDate() {
+        OutputView.printDateInputDescription();
+        return receiveValidatedInput(InputView::inputVisitDate, DateValidator::validateDate);
+    }
+
+    private Map<String, Integer> receiveValidatedOrder() {
+        OutputView.printOrderInputDescription();
+        return receiveValidatedInput(InputView::inputOrder, OrderValidator::validateOrder);
+    }
+
+    private static <T> T receiveValidatedInput(Supplier<T> inputSupplier, Consumer<T> validator) {
+        while (true) {
+            try {
+                T input = inputSupplier.get();
+                validator.accept(input);
+                return input;
+            } catch (IllegalArgumentException e) {
+                OutputView.printExceptionMessage(e);
+            }
+        }
+    }
+
     public void plan() {
         int totalPrice = user.getTotalPrice();
         int weekDayDiscount = discountService.calcDiscountAmount(new WeekDayDiscountPolicy(), user);
@@ -90,27 +112,5 @@ public class PlannerController {
         OutputView.printBenefitAmount(result.getBenefitAmount());
         OutputView.printDiscountedPrice(result.getDiscountedPrice());
         OutputView.printEventBadge(result.getBadgeName());
-    }
-
-    private int receiveValidatedDate() {
-        OutputView.printDateInputDescription();
-        return receiveValidatedInput(InputView::inputVisitDate, DateValidator::validateDate);
-    }
-
-    private Map<String, Integer> receiveValidatedOrder() {
-        OutputView.printOrderInputDescription();
-        return receiveValidatedInput(InputView::inputOrder, OrderValidator::validateOrder);
-    }
-
-    private static <T> T receiveValidatedInput(Supplier<T> inputSupplier, Consumer<T> validator) {
-        while (true) {
-            try {
-                T input = inputSupplier.get();
-                validator.accept(input);
-                return input;
-            } catch (IllegalArgumentException e) {
-                OutputView.printExceptionMessage(e);
-            }
-        }
     }
 }
