@@ -84,34 +84,38 @@ public class PlannerController {
 
     public void plan() {
         int totalPrice = user.getTotalPrice();
+        Map<String, Integer> discountAmountByEachPolicy = calcDiscountAmount();
+        Optional<Menu> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
+        int totalBenefit = calcTotalBenefit(discountAmountByEachPolicy, gift.map(Menu::getPrice).orElse(0));
+        Optional<Badge> badge = badgeService.findBadge(new DefaultBadgePolicy(), totalBenefit);
+
+        printResult(new PlannerResult(
+                totalPrice, discountAmountByEachPolicy,
+                gift.map(Menu::getName).orElse(null),
+                badge.map(Badge::getName).orElse(null)
+        ));
+    }
+
+    private Map<String, Integer> calcDiscountAmount() {
         List<DiscountPolicy> discountPolicies = List.of(
                 new WeekDayDiscountPolicy(),
                 new WeekendDiscountPolicy(),
                 new SpecialDiscountPolicy(),
                 new ChristmasDiscountPolicy()
         );
-
-        Map<String, Integer> discountAmountByEachPolicy = discountPolicies.stream()
+        return discountPolicies.stream()
                 .map(p -> Map.entry(p.getPolicyName(), discountService.calcDiscountAmount(p, user)))
                 .filter(entry -> entry.getValue() > 0)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        Optional<Menu> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
-        int totalBenefit = discountAmountByEachPolicy.values().stream()
-                .mapToInt(Integer::intValue).sum()
-                + gift.map(Menu::getPrice).orElse(0);
-
-        Optional<Badge> badge = badgeService.findBadge(new DefaultBadgePolicy(), totalBenefit);
-
-        printResult(new PlannerResult(
-                totalPrice,
-                discountAmountByEachPolicy,
-                gift.map(Menu::getName).orElse(null),
-                badge.map(Badge::getName).orElse(null)
-        ));
     }
 
-    public void printResult(PlannerResult result) {
+    private int calcTotalBenefit(Map<String, Integer> discountAmountByEachPolicy, int giftPrice) {
+        return discountAmountByEachPolicy.values().stream()
+                .mapToInt(Integer::intValue).sum()
+                + giftPrice;
+    }
+
+    private void printResult(PlannerResult result) {
         OutputView.printEventPreviewDescription(user.getVisitDate().getDate());
         OutputView.printOrder(user.getOrders());
         OutputView.printTotalPrice(result.getTotalPrice());
