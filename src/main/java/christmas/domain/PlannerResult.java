@@ -23,8 +23,8 @@ public class PlannerResult {
         this.totalDiscount = discountAmountByEachPolicy.values().stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        this.totalGiftPrice = gift.values().stream()
-                .mapToInt(Integer::intValue)
+        this.totalGiftPrice = gift.entrySet().stream()
+                .mapToInt(e -> e.getKey().getPrice() * e.getValue())
                 .sum();
     }
 
