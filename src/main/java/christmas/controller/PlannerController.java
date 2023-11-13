@@ -31,13 +31,24 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class PlannerController {
-    CalendarService calendarService = new CalendarService();
-    OrderService orderService = new OrderService();
-    UserService userService = new UserService();
-    DiscountService discountService = new DiscountService();
-    GiveawayService giveawayService = new GiveawayService();
-    BadgeService badgeService = new BadgeService();
+    CalendarService calendarService;
+    OrderService orderService;
+    UserService userService;
+    DiscountService discountService;
+    GiveawayService giveawayService;
+    BadgeService badgeService;
     User user;
+
+    public PlannerController(CalendarService calendarService, OrderService orderService, UserService userService,
+                             DiscountService discountService, GiveawayService giveawayService,
+                             BadgeService badgeService) {
+        this.calendarService = calendarService;
+        this.orderService = orderService;
+        this.userService = userService;
+        this.discountService = discountService;
+        this.giveawayService = giveawayService;
+        this.badgeService = badgeService;
+    }
 
     public void start() {
         OutputView.printWelcomeMessage();
@@ -84,7 +95,6 @@ public class PlannerController {
                 .map(p -> Map.entry(p.getPolicyName(), discountService.calcDiscountAmount(p, user)))
                 .filter(entry -> entry.getValue() > 0)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
 
         Optional<Menu> gift = giveawayService.findGift(new DefaultGiveawayPolicy(), totalPrice);
         int totalBenefit = discountAmountByEachPolicy.values().stream()
