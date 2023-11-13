@@ -14,7 +14,7 @@ public class InputView {
         try {
             return Integer.parseInt(Console.readLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(EventPlanner.INVALID_ORDER_ERROR);
+            throw new IllegalArgumentException(EventPlanner.INVALID_DATE_ERROR);
         }
     }
 
