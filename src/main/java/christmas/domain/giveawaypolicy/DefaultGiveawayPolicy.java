@@ -2,7 +2,7 @@ package christmas.domain.giveawaypolicy;
 
 import christmas.constant.Menu;
 
-public class DefaultGiveawayPolicy implements GiveawayPolicy {
+public class DefaultGiveawayPolicy extends GiveawayPolicy {
     private static final int MINIMUM_PRICE = 120000;
     private static final Menu GIFT = Menu.fromName("샴페인");
 
